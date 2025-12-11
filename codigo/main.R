@@ -1,6 +1,6 @@
-#===========================================
-#= 1. Análise de proficiência por raça/cor =
-#===========================================
+#==================================================
+#= 1. Análise de proficiência por raça/cor - 2023 =
+#==================================================
 
 saeb_9_ef_23_racacor <- saeb_9_ef_23[
   # Consistente entre os dados da aplicação do Saeb 2023 com o Censo da 
@@ -37,9 +37,9 @@ saeb_9_ef_23_racacor <- saeb_9_ef_23[
   )
 ]
 
-#=======================================================
-#= 2. Análise de proficiência por nível socioeconômico =
-#=======================================================
+#==============================================================
+#= 2. Análise de proficiência por nível socioeconômico - 2023 =
+#==============================================================
 
 saeb_9_ef_23_nse <- saeb_9_ef_23[
   # Consistente entre os dados da aplicação do Saeb 2023 com o Censo da 
@@ -67,6 +67,40 @@ saeb_9_ef_23_nse <- saeb_9_ef_23[
   )
 ]
 
+#==============================================
+#= 3. Análise de proficiência por sexo - 2023 =
+#==============================================
+
+saeb_9_ef_23_sexo <- saeb_9_ef_23[
+  # Consistente entre os dados da aplicação do Saeb 2023 com o Censo da 
+  # Educação Básica 2023 finalizado
+  IN_SITUACAO_CENSO == 1 &
+    # Escola pública
+    IN_PUBLICA == 1,
+  .(
+    # Inclusão das opções de resposta para a pergunta: Qual é o seu sexo? 
+    SEXO = case_when(
+      TX_RESP_Q01 == "*" ~ "Nulo",
+      TX_RESP_Q01 == "." ~ "Branco",
+      TX_RESP_Q01 == "A" ~ "Masculino.",
+      TX_RESP_Q01 == "B" ~ "Feminino.",
+      TX_RESP_Q01 == "C" ~ "Não quero declarar.",
+      .default = NA
+    ),
+    # Média ponderada da proficiência em matemática
+    MEDIA_MT = sum(PROFICIENCIA_MT_SAEB, na.rm=T)/sum(PESO_ALUNO_INSE, na.rm=T),
+    # Média ponderada da proficiência em língua portuguesa
+    MEDIA_LP = sum(PROFICIENCIA_LP_SAEB, na.rm=T)/sum(PESO_ALUNO_INSE, na.rm=T)
+  ),
+  # Agrupamento por sexo
+  by = "TX_RESP_Q01"
+][
+  ,
+  .(
+    # Inclusão de variáveis de ano do Saeb e ano/série dos estudantes
+    ANO_SAEB = 2023, ANO_SERIE = 9, SEXO, MEDIA_MT, MEDIA_LP
+  )
+]
 
 
 
