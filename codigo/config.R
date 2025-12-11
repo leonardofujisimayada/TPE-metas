@@ -4,6 +4,7 @@
 
 library(data.table)    # importa e trata arquivos .csv
 library(here)          # facilita inclusão de caminho
+library(dplyr)         # trata dataframes/datatables
 
 #==============================
 #= Importa dados do Saeb 2023 = 
