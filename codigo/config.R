@@ -12,6 +12,12 @@ library(haven)         # importa dados .dta
 #= Importa dados do Saeb = 
 #=========================
 
+# Caminho para os microdados ANTIGOS do 9º ano do Ensino Fundamental (2013)
+caminho_saeb_13_dta <- here("dados", "saeb_2013.dta")
+# Caminho para os microdados ANTIGOS do 9º ano do Ensino Fundamental (2015)
+caminho_saeb_15_dta <- here("dados", "saeb_2015.dta")
+# Caminho para os microdados ANTIGOS do 9º ano do Ensino Fundamental (2017)
+caminho_saeb_17_dta <- here("dados", "saeb_2017.dta")
 # Caminho para os microdados ANTIGOS do 9º ano do Ensino Fundamental (2019)
 caminho_saeb_19_dta <- here("dados", "saeb_2019.dta")
 
@@ -22,6 +28,15 @@ caminho_saeb_9_ef_21 <- here("dados", "SAEB_2021", "TS_ALUNO_9EF.csv")
 # Caminho para os microdados do 9º ano do Ensino Fundamental (2023)
 caminho_saeb_9_ef_23 <- here("dados", "SAEB_2023", "TS_ALUNO_9EF.csv")
 
+# Importação dos microdados ANTIGOS do 9º ano do Ensino Fundamental (2013)
+saeb_13_dta <- haven::read_dta(caminho_saeb_13_dta)
+saeb_13_dta <- setDT(saeb_13_dta)
+# Importação dos microdados ANTIGOS do 9º ano do Ensino Fundamental (2015)
+saeb_15_dta <- haven::read_dta(caminho_saeb_15_dta)
+saeb_15_dta <- setDT(saeb_15_dta)
+# Importação dos microdados ANTIGOS do 9º ano do Ensino Fundamental (2017)
+saeb_17_dta <- haven::read_dta(caminho_saeb_17_dta)
+saeb_17_dta <- setDT(saeb_17_dta)
 # Importação dos microdados ANTIGOS do 9º ano do Ensino Fundamental (2019)
 saeb_19_dta <- haven::read_dta(caminho_saeb_19_dta)
 saeb_19_dta <- setDT(saeb_19_dta)
