@@ -50,7 +50,7 @@ saeb_9_ef_17_racacor_municipio_dta <- saeb_17_dta[
   ,
   .(
     # Inclusão de variáveis de ano do Saeb e ano/série dos estudantes
-    ANO_SAEB = 2017, ANO_SERIE = 9, cor_raca, MEDIA_MT, MEDIA_LP
+    ANO_SAEB = 2017, ANO_SERIE = 9, id_municipio, cor_raca, MEDIA_MT, MEDIA_LP
   )
 ]
 
