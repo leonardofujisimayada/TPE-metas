@@ -105,7 +105,11 @@ saeb_9_ef_19_racacor_dta <- saeb_19_dta[
     # Média ponderada da proficiência em matemática
     MEDIA_MT = sum(proficiencia_mt_saeb, na.rm=T)/sum(peso_aluno_mt, na.rm=T),
     # Média ponderada da proficiência em língua portuguesa
-    MEDIA_LP = sum(proficiencia_lp_saeb, na.rm=T)/sum(peso_aluno_lp, na.rm=T)
+    MEDIA_LP = sum(proficiencia_lp_saeb, na.rm=T)/sum(peso_aluno_lp, na.rm=T),
+    # Quantidade de alunos MT
+    QTD_ALUNO_MT = sum(peso_aluno_mt, na.rm=T),
+    # Quantidade de alunos PT
+    QTD_ALUNO_LP = sum(peso_aluno_lp, na.rm=T)
   ),
   # Agrupamento por raça/cor
   by = "cor_raca"
@@ -113,7 +117,7 @@ saeb_9_ef_19_racacor_dta <- saeb_19_dta[
   ,
   .(
     # Inclusão de variáveis de ano do Saeb e ano/série dos estudantes
-    ANO_SAEB = 2019, ANO_SERIE = 9, cor_raca, MEDIA_MT, MEDIA_LP
+    ANO_SAEB = 2019, ANO_SERIE = 9, cor_raca, QTD_ALUNO_MT, MEDIA_MT, QTD_ALUNO_LP, MEDIA_LP
   )
 ]
 
@@ -133,7 +137,11 @@ saeb_9_ef_19_racacor_municipio_dta <- saeb_19_dta[
     # Média ponderada da proficiência em matemática
     MEDIA_MT = sum(proficiencia_mt_saeb, na.rm=T)/sum(peso_aluno_mt, na.rm=T),
     # Média ponderada da proficiência em língua portuguesa
-    MEDIA_LP = sum(proficiencia_lp_saeb, na.rm=T)/sum(peso_aluno_lp, na.rm=T)
+    MEDIA_LP = sum(proficiencia_lp_saeb, na.rm=T)/sum(peso_aluno_lp, na.rm=T),
+    # Quantidade de alunos MT
+    QTD_ALUNO_MT = sum(peso_aluno_mt, na.rm=T),
+    # Quantidade de alunos PT
+    QTD_ALUNO_LP = sum(peso_aluno_lp, na.rm=T)
   ),
   # Agrupamento por raça/cor
   by = c("id_municipio", "cor_raca")
@@ -141,7 +149,7 @@ saeb_9_ef_19_racacor_municipio_dta <- saeb_19_dta[
   ,
   .(
     # Inclusão de variáveis de ano do Saeb e ano/série dos estudantes
-    ANO_SAEB = 2019, ANO_SERIE = 9, id_municipio, cor_raca, MEDIA_MT, MEDIA_LP
+    ANO_SAEB = 2019, ANO_SERIE = 9, id_municipio, cor_raca, QTD_ALUNO_MT, MEDIA_MT, QTD_ALUNO_LP, MEDIA_LP
   )
 ]
 
@@ -156,4 +164,4 @@ lista_dfs <- list(
 )
 
 # Salva tudo em um único arquivo Excel
-write_xlsx(lista_dfs, path = here("dados", "TB_DESIGUALDADE_2019_COM_MUNICIPIO.xlsx"))
+write_xlsx(lista_dfs, path = here("dados", "TB_DESIGUALDADE_2019_COM_MUNICIPIO_V2.xlsx"))

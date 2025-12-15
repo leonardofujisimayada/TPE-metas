@@ -49,3 +49,18 @@ saeb_9_ef_21 <- data.table::fread(caminho_saeb_9_ef_21, encoding="Latin-1")
 saeb_9_ef_23 <- data.table::fread(caminho_saeb_9_ef_23, encoding="Latin-1")
 
 
+saeb_15_dta[
+  # Consistente entre os dados da aplicação do Saeb 2013 com o Censo da 
+  # Educação Básica 2013 finalizado
+  in_situacao_censo == 1 &
+    # Escola pública
+    in_publica == 1 &
+    # 9º ano do Ensino Fundamental
+    id_serie == 9,
+  .(
+    # Média ponderada da proficiência em matemática
+    MEDIA_MT = sum(proficiencia_mt_saeb, na.rm=T)/sum(peso_aluno_mt, na.rm=T),
+    # Média ponderada da proficiência em língua portuguesa
+    MEDIA_LP = sum(proficiencia_lp_saeb, na.rm=T)/sum(peso_aluno_lp, na.rm=T)
+  )
+]
