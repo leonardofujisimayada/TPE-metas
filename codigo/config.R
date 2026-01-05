@@ -7,6 +7,14 @@ library(here)          # facilita inclusão de caminho
 library(dplyr)         # trata dataframes/datatables
 library(writexl)       # exporta arquivo para Excel
 library(haven)         # importa dados .dta
+library(readxl)        # importa arquivo Excel
+
+#=====================================================
+#= Importa dados dos subgrpos (tamanho da população) = 
+#=====================================================
+
+# Dados dos subgrupos do TPE 
+tb_subgrupos <- readxl::read_xlsx(path = here("dados", "TB_SUBGRUPOS.xlsx"))
 
 #=========================
 #= Importa dados do Saeb = 
