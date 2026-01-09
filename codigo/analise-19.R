@@ -121,6 +121,38 @@ saeb_9_ef_19_racacor_dta <- saeb_19_dta[
   )
 ]
 
+#===========================================================================
+#= 5º ano Análise de proficiência por raça/cor - 2019 (microdados antigos) =
+#===========================================================================
+
+saeb_5_ef_19_racacor_dta <- saeb_19_dta[
+  # Consistente entre os dados da aplicação do Saeb 2019 com o Censo da 
+  # Educação Básica 2019 finalizado
+  in_situacao_censo == 1 &
+    # Escola pública
+    in_publica == 1 &
+    # 9º ano do Ensino Fundamental
+    id_serie == 5,
+  .(
+    # Média ponderada da proficiência em matemática
+    MEDIA_MT = sum(proficiencia_mt_saeb, na.rm=T)/sum(peso_aluno_mt, na.rm=T),
+    # Média ponderada da proficiência em língua portuguesa
+    MEDIA_LP = sum(proficiencia_lp_saeb, na.rm=T)/sum(peso_aluno_lp, na.rm=T),
+    # Quantidade de alunos MT
+    QTD_ALUNO_MT = sum(peso_aluno_mt, na.rm=T),
+    # Quantidade de alunos PT
+    QTD_ALUNO_LP = sum(peso_aluno_lp, na.rm=T)
+  ),
+  # Agrupamento por raça/cor
+  by = "cor_raca"
+][
+  ,
+  .(
+    # Inclusão de variáveis de ano do Saeb e ano/série dos estudantes
+    ANO_SAEB = 2019, ANO_SERIE = 5, cor_raca, QTD_ALUNO_MT, MEDIA_MT, QTD_ALUNO_LP, MEDIA_LP
+  )
+]
+
 #====================================================================================
 #= 3.1 Análise de proficiência por raça/cor e município - 2019 (microdados antigos) =
 #====================================================================================
@@ -153,15 +185,47 @@ saeb_9_ef_19_racacor_municipio_dta <- saeb_19_dta[
   )
 ]
 
+#=======================================================================================
+#= 5º ano Análise de proficiência por raça/cor e município - 2019 (microdados antigos) =
+#=======================================================================================
+
+saeb_5_ef_19_racacor_municipio_dta <- saeb_19_dta[
+  # Consistente entre os dados da aplicação do Saeb 2019 com o Censo da 
+  # Educação Básica 2019 finalizado
+  in_situacao_censo == 1 &
+    # Escola pública
+    in_publica == 1 &
+    # 9º ano do Ensino Fundamental
+    id_serie == 5,
+  .(
+    # Média ponderada da proficiência em matemática
+    MEDIA_MT = sum(proficiencia_mt_saeb, na.rm=T)/sum(peso_aluno_mt, na.rm=T),
+    # Média ponderada da proficiência em língua portuguesa
+    MEDIA_LP = sum(proficiencia_lp_saeb, na.rm=T)/sum(peso_aluno_lp, na.rm=T),
+    # Quantidade de alunos MT
+    QTD_ALUNO_MT = sum(peso_aluno_mt, na.rm=T),
+    # Quantidade de alunos PT
+    QTD_ALUNO_LP = sum(peso_aluno_lp, na.rm=T)
+  ),
+  # Agrupamento por raça/cor
+  by = c("id_municipio", "cor_raca")
+][
+  ,
+  .(
+    # Inclusão de variáveis de ano do Saeb e ano/série dos estudantes
+    ANO_SAEB = 2019, ANO_SERIE = 5, id_municipio, cor_raca, QTD_ALUNO_MT, MEDIA_MT, QTD_ALUNO_LP, MEDIA_LP
+  )
+]
+
 #==========================
 #= 4. Exportação de dados =
 #==========================
 
 # Criação de lista com dataframes
 lista_dfs <- list(
-  TB_RACACOR_BRASIL    = saeb_9_ef_19_racacor_dta,
-  TB_RACACOR_MUNICIPIO = saeb_9_ef_19_racacor_municipio_dta
+  TB_RACACOR_BRASIL    = saeb_5_ef_19_racacor_dta,
+  TB_RACACOR_MUNICIPIO = saeb_5_ef_19_racacor_municipio_dta
 )
 
 # Salva tudo em um único arquivo Excel
-write_xlsx(lista_dfs, path = here("dados", "TB_DESIGUALDADE_2019_COM_MUNICIPIO_V2.xlsx"))
+write_xlsx(lista_dfs, path = here("dados", "TB_DESIGUALDADE_2019_COM_MUNICIPIO.xlsx"))

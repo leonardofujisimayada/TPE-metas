@@ -31,10 +31,16 @@ caminho_saeb_19_dta <- here("dados", "saeb_2019.dta")
 
 # Caminho para os microdados do 9º ano do Ensino Fundamental (2019)
 caminho_saeb_9_ef_19 <- here("dados", "SAEB_2019", "TS_ALUNO_9EF.csv")
+
 # Caminho para os microdados do 9º ano do Ensino Fundamental (2021)
 caminho_saeb_9_ef_21 <- here("dados", "SAEB_2021", "TS_ALUNO_9EF.csv")
 # Caminho para os microdados do 9º ano do Ensino Fundamental (2023)
 caminho_saeb_9_ef_23 <- here("dados", "SAEB_2023", "TS_ALUNO_9EF.csv")
+
+# Caminho para os microdados do 5º ano do Ensino Fundamental (2021)
+caminho_saeb_5_ef_21 <- "C:/Users/leona/OneDrive/tpe/dados/microdados/inep/saeb/2021/microdados_saeb_2021/DADOS/TS_ALUNO_5EF.csv"
+# Caminho para os microdados do 5º ano do Ensino Fundamental (2023)
+caminho_saeb_5_ef_23 <- "C:/Users/leona/OneDrive/tpe/dados/microdados/inep/saeb/2021/MICRODADOS_SAEB_2023/DADOS/TS_ALUNO_5EF.csv"
 
 # Importação dos microdados ANTIGOS do 9º ano do Ensino Fundamental (2013)
 saeb_13_dta <- haven::read_dta(caminho_saeb_13_dta)
@@ -56,6 +62,8 @@ saeb_9_ef_21 <- data.table::fread(caminho_saeb_9_ef_21, encoding="Latin-1")
 # Importação dos dados utilizando data.table 
 saeb_9_ef_23 <- data.table::fread(caminho_saeb_9_ef_23, encoding="Latin-1")
 
+saeb_5_ef_21 <- data.table::fread(caminho_saeb_5_ef_21, encoding="Latin-1")
+saeb_5_ef_23 <- data.table::fread(caminho_saeb_5_ef_23, encoding="Latin-1")
 
 saeb_15_dta[
   # Consistente entre os dados da aplicação do Saeb 2013 com o Censo da 

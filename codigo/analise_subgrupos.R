@@ -1,3 +1,12 @@
+
+saeb_limite <- saeb_13_dta_0_50 %>% 
+  group_by(id_municipio, cor_raca) %>% 
+  reframe(media = mean(proficiencia_lp_saeb, na.rm=T), QT=n(), MULT=media*QT) %>% 
+  group_by(id_municipio) %>% 
+  reframe(cor_raca, P=MULT/sum(MULT, na.rm=T)) %>% 
+  ungroup()
+
+
 #=============================
 #= Dados por subgrupo - 2013 =
 #=============================
