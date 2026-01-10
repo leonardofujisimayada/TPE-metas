@@ -1,12 +1,3 @@
-
-saeb_limite <- saeb_13_dta_0_50 %>% 
-  group_by(id_municipio, cor_raca) %>% 
-  reframe(media = mean(proficiencia_lp_saeb, na.rm=T), QT=n(), MULT=media*QT) %>% 
-  group_by(id_municipio) %>% 
-  reframe(cor_raca, P=MULT/sum(MULT, na.rm=T)) %>% 
-  ungroup()
-
-
 #=============================
 #= Dados por subgrupo - 2013 =
 #=============================
@@ -15,7 +6,17 @@ saeb_limite <- saeb_13_dta_0_50 %>%
 saeb_13_dta <- saeb_13_dta %>% 
   filter(
     in_situacao_censo==1 &
-      id_dependencia_adm==3
+      id_dependencia_adm==3 &
+      cor_raca %in% c(
+        "Branca", "Amarela", "Preta", "Parda", "Indígena"
+      )
+  ) %>% 
+  mutate(
+    cor_raca_aj = case_when(
+      cor_raca %in% c("Branca", "Amarela") ~ "Branca/Amarela",
+      cor_raca %in% c("Preta", "Parda", "Indígena") ~ "Preta/Parda/Indígena",
+      .default = cor_raca
+    )
   ) %>% 
   left_join(
     tb_subgrupos, by=c("id_municipio"="CO_MUNICIPIO")
@@ -36,9 +37,25 @@ saeb_13_dta_G46 <- saeb_13_dta %>%
 
 # Exportação de dados
 data.table::fwrite(
-  x = saeb_13_dta_G46, 
-  file = here("dados", "saeb_2013_G46.csv")
+  x = saeb_13_dta_0_50, 
+  file = here("dados", "saeb_2013_0_50.csv")
 )
+
+data.table::fwrite(
+  x = saeb_13_dta_50_100, 
+  file = here("dados", "saeb_2013_50_100.csv")
+)
+
+data.table::fwrite(
+  x = saeb_13_dta_100_500, 
+  file = here("dados", "saeb_2013_100_500.csv")
+)
+
+data.table::fwrite(
+  x = saeb_13_dta_G46, 
+  file = here("dados", "saeb_2013_g46.csv")
+)
+
 
 #=============================
 #= Dados por subgrupo - 2015 =
@@ -48,7 +65,17 @@ data.table::fwrite(
 saeb_15_dta <- saeb_15_dta %>% 
   filter(
     in_situacao_censo==1 &
-      id_dependencia_adm==3
+      id_dependencia_adm==3 &
+      cor_raca %in% c(
+        "Branca", "Amarela", "Preta", "Parda", "Indígena"
+      )
+  ) %>% 
+  mutate(
+    cor_raca_aj = case_when(
+      cor_raca %in% c("Branca", "Amarela") ~ "Branca/Amarela",
+      cor_raca %in% c("Preta", "Parda", "Indígena") ~ "Preta/Parda/Indígena",
+      .default = cor_raca
+    )
   ) %>% 
   left_join(
     tb_subgrupos, by=c("id_municipio"="CO_MUNICIPIO")
@@ -96,8 +123,18 @@ data.table::fwrite(
 saeb_17_dta <- saeb_17_dta %>% 
   filter(
     in_situacao_censo==1 &
-      id_dependencia_adm==3
+      id_dependencia_adm==3 &
+      cor_raca %in% c(
+        "Branca", "Amarela", "Preta", "Parda", "Indígena"
+      )
   ) %>% 
+  mutate(
+    cor_raca_aj = case_when(
+      cor_raca %in% c("Branca", "Amarela") ~ "Branca/Amarela",
+      cor_raca %in% c("Preta", "Parda", "Indígena") ~ "Preta/Parda/Indígena",
+      .default = cor_raca
+    )
+  ) %>%
   left_join(
     tb_subgrupos, by=c("id_municipio"="CO_MUNICIPIO")
   )
@@ -144,8 +181,18 @@ data.table::fwrite(
 saeb_19_dta <- saeb_19_dta %>% 
   filter(
     in_situacao_censo==1 &
-      id_dependencia_adm==3
+      id_dependencia_adm==3 &
+      cor_raca %in% c(
+        "Branca", "Amarela", "Preta", "Parda", "Indígena"
+      )
   ) %>% 
+  mutate(
+    cor_raca_aj = case_when(
+      cor_raca %in% c("Branca", "Amarela") ~ "Branca/Amarela",
+      cor_raca %in% c("Preta", "Parda", "Indígena") ~ "Preta/Parda/Indígena",
+      .default = cor_raca
+    )
+  ) %>%
   left_join(
     tb_subgrupos, by=c("id_municipio"="CO_MUNICIPIO")
   )
