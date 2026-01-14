@@ -198,3 +198,11 @@ pop_2022 <- merge(x=pop_2022_basico, y=pop_2022_pessoas, by = c("code_state", "c
 
 
   
+
+
+library(arrow)
+library(readxl)
+bd_conectividade <- "C:/Users/leona/Downloads/BD_CONECTIVIDADE.xlsx"
+bd_conectividade <- readxl::read_xlsx(bd_conectividade)
+write_parquet(bd_conectividade, "C:/Users/leona/Downloads/bd_conectividade.parquet")
+
