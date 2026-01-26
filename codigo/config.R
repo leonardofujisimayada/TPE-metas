@@ -8,6 +8,12 @@ library(dplyr)         # trata dataframes/datatables
 library(writexl)       # exporta arquivo para Excel
 library(haven)         # importa dados .dta
 library(readxl)        # importa arquivo Excel
+library(reshape2)
+library(openxlsx)
+library(tidyr)
+library(purrr)
+library(ggplot2)
+library(Hmisc)
 
 #=====================================================
 #= Importa dados dos subgrpos (tamanho da população) = 
@@ -15,6 +21,19 @@ library(readxl)        # importa arquivo Excel
 
 # Dados dos subgrupos do TPE 
 tb_subgrupos <- readxl::read_xlsx(path = here("dados", "TB_SUBGRUPOS.xlsx"))
+tb_subgrupos <- tb_subgrupos %>% 
+  mutate(
+    PORTE = case_when(
+      PORTE == "50k - 0" ~ "0_50",
+      PORTE == "100k - 50k" ~ "50_100",
+      PORTE == "500k - 100k" ~ "100_500",
+      PORTE == "G46 (Todos Pela Educação)" ~ "g46",
+      .default = NA
+    )
+  ) %>% 
+  rename(
+    cluster = PORTE
+  )
 
 #=========================
 #= Importa dados do Saeb = 
@@ -40,7 +59,14 @@ caminho_saeb_9_ef_23 <- here("dados", "SAEB_2023", "TS_ALUNO_9EF.csv")
 # Caminho para os microdados do 5º ano do Ensino Fundamental (2021)
 caminho_saeb_5_ef_21 <- "C:/Users/leona/OneDrive/tpe/dados/microdados/inep/saeb/2021/microdados_saeb_2021/DADOS/TS_ALUNO_5EF.csv"
 # Caminho para os microdados do 5º ano do Ensino Fundamental (2023)
-caminho_saeb_5_ef_23 <- "C:/Users/leona/OneDrive/tpe/dados/microdados/inep/saeb/2021/MICRODADOS_SAEB_2023/DADOS/TS_ALUNO_5EF.csv"
+caminho_saeb_5_ef_23 <- "C:/Users/leona/OneDrive/MICRODADOS_SAEB_2023/DADOS/TS_ALUNO_5EF.csv"
+
+
+caminho_saeb_12_em_17 <- "C:/Users/leona/OneDrive/tpe/dados/microdados/inep/saeb/microdados_saeb_2017/DADOS/TS_ALUNO_3EM_ESC.csv"
+# Caminho para os microdados do 5º ano do Ensino Fundamental (2021)
+caminho_saeb_12_em_21 <- "C:/Users/leona/OneDrive/tpe/dados/microdados/inep/saeb/2021/microdados_saeb_2021/DADOS/TS_ALUNO_34EM.csv"
+# Caminho para os microdados do 5º ano do Ensino Fundamental (2023)
+caminho_saeb_12_em_23 <- "C:/Users/leona/OneDrive/MICRODADOS_SAEB_2023/DADOS/TS_ALUNO_34EM.csv"
 
 # Importação dos microdados ANTIGOS do 9º ano do Ensino Fundamental (2013)
 saeb_13_dta <- haven::read_dta(caminho_saeb_13_dta)
@@ -64,6 +90,10 @@ saeb_9_ef_23 <- data.table::fread(caminho_saeb_9_ef_23, encoding="Latin-1")
 
 saeb_5_ef_21 <- data.table::fread(caminho_saeb_5_ef_21, encoding="Latin-1")
 saeb_5_ef_23 <- data.table::fread(caminho_saeb_5_ef_23, encoding="Latin-1")
+
+saeb_12_em_17 <- data.table::fread(caminho_saeb_12_em_17, encoding="Latin-1")
+saeb_12_em_21 <- data.table::fread(caminho_saeb_12_em_21, encoding="Latin-1")
+saeb_12_em_23 <- data.table::fread(caminho_saeb_12_em_23, encoding="Latin-1")
 
 saeb_15_dta[
   # Consistente entre os dados da aplicação do Saeb 2013 com o Censo da 
